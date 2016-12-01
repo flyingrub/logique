@@ -65,8 +65,10 @@ function decompose(node, name) {
         } else if (e.operator == '∧') {
             addChildren(node, createNode(not(e.firstPart)));
             addChildren(node, createNode(not(e.secondPart)));
+        } else if (e.firstPart.startsWith('¬') && !e.secondPart) {
+            addChildren(node, createNode(e.firstPart.substring(1)));
         }
-    } else if (e.firstPart.startsWith('¬¬')) {
+    } else if (e.firstPart.startsWith('¬¬') && !e.secondPart) {
         console.log('NNEXPRESSION', e)
         addChildren(node, createNode(e.firstPart.substring(2)));
     }
@@ -133,4 +135,4 @@ function addChildren(node, children) {
 }
 
 // INIT
-createTree(createNode(formule));
+createTree(createNode(formules[2]));
