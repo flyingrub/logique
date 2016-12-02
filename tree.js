@@ -23,6 +23,7 @@ var diagonal = d3.svg.diagonal()
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.right + margin.left)
     .attr("height", height + margin.top + margin.bottom)
+    .attr("id", 'tree')
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 

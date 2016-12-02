@@ -94,6 +94,7 @@ function addOldExpression(node, name) {
             });
         });
         node.computed = name;
+        updateScore();
     } else {
         var needCompute = node.name.some(function(n){
             return n.length > 2;
@@ -107,6 +108,7 @@ function addOldExpression(node, name) {
         }
         if (!needCompute) {
             node.computed = name;
+            updateScore();
             node.end = true;
             node.incoherent = incoherent;
         }
@@ -135,4 +137,37 @@ function addChildren(node, children) {
 }
 
 // INIT
-createTree(createNode(formules[2]));
+var play = document.getElementById('play');
+var timeText = document.getElementById('time');
+var scoreText = document.getElementById('score');
+var treeDiv = document.getElementById('tree');
+var time, timout, score = 0;
+
+function updateScore() {
+    score++;
+    scoreText.innerHTML = "Score : " + score;
+}
+
+function updateTime() {
+    var elapsed = Date.now() - time;
+    timeText.innerHTML = Math.floor(elapsed / 1000) + "s";
+}
+
+function playClic() {
+    if (play.innerHTML == "►") {
+        time = Date.now();
+        play.innerHTML = "◼";
+        createTree(createNode(formule));
+        timout = window.setInterval(updateTime, 1000);
+        score = 0;
+        updateScore();
+    } else {
+        play.innerHTML = "►";
+        window.clearInterval(timout);        
+        createTree(createNode(""));
+    }
+
+}
+
+play.addEventListener("click", playClic);
+
